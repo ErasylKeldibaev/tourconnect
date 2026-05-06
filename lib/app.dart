@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/home/home_screen.dart';
 import 'core/theme/app_theme.dart';
+import 'screens/splash/splash_screen.dart';
 
 class TourConnectApp extends StatelessWidget {
   const TourConnectApp({super.key});
@@ -11,7 +11,7 @@ class TourConnectApp extends StatelessWidget {
       title: 'TourConnect',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

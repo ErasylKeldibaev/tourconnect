@@ -7,8 +7,12 @@ class Place {
   final String description;
   final double rating;
   final String address;
+  final int reviewCount;
+  final bool isPopular;
+  final double? lat;
+  final double? lng;
 
-  Place({
+  const Place({
     required this.id,
     required this.cityId,
     required this.name,
@@ -17,5 +21,9 @@ class Place {
     required this.description,
     required this.rating,
     required this.address,
+    this.reviewCount = 0,
+    this.isPopular = false,
+    this.lat,
+    this.lng,
   });
 }

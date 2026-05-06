@@ -6,8 +6,11 @@ class Agency {
   final String description;
   final double rating;
   final String phone;
+  final int reviewCount;
+  final int toursCount;
+  final bool isVerified;
 
-  Agency({
+  const Agency({
     required this.id,
     required this.cityId,
     required this.name,
@@ -15,5 +18,8 @@ class Agency {
     required this.description,
     required this.rating,
     required this.phone,
+    this.reviewCount = 0,
+    this.toursCount = 0,
+    this.isVerified = true,
   });
 }

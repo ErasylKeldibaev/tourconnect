@@ -1,7 +1,7 @@
 name: tourconnect
-description: "A professional travel mobile application."
+description: "A professional travel mobile application connecting tourists with local guides."
 publish_to: 'none'
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: ^3.10.8
@@ -14,14 +14,11 @@ dependencies:
   google_fonts: ^6.1.0
   animate_do: ^3.3.4
   cached_network_image: ^3.3.0
-  
-  # Firebase
-  firebase_core: ^3.1.0
-  cloud_firestore: ^5.0.1
-  
-  # Maps
-  google_maps_flutter: ^2.17.0
-  geolocator: ^12.0.0
+  shimmer: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+  smooth_page_indicator: ^1.2.0+3
+  shared_preferences: ^2.2.3
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
