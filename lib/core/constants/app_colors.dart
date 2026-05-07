@@ -7,7 +7,7 @@ class AppColors {
   static const Color primaryDark = Color(0xFF094F4F);
   static const Color accent = Color(0xFFF5A623);        // золото
   static const Color accentLight = Color(0xFFFFBD4A);
-  static const Color accentLight = Color(0xFFFFBD4A);
+
 
   static const Color background = Color(0xFFF7F8FA);
   static const Color surface = Colors.white;
