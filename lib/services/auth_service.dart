@@ -7,6 +7,8 @@ class AuthService {
 
   Stream<AuthState> get authStateChanges => _client.auth.onAuthStateChange;
 
+  bool get isLoggedIn => currentUser != null;
+
   Future<AuthResponse> register({
     required String email,
     required String password,
@@ -31,5 +33,32 @@ class AuthService {
     await _client.auth.signOut();
   }
 
-  bool get isLoggedIn => currentUser != null;
+  Future<Map<String, dynamic>?> getProfile() async {
+    final user = currentUser;
+    if (user == null) return null;
+
+    return await _client
+        .from('profiles')
+        .select()
+        .eq('id', user.id)
+        .maybeSingle();
+  }
+
+  Future<void> updateProfile({
+    required String fullName,
+    String? phone,
+    String? bio,
+    String? avatarUrl,
+  }) async {
+    final user = currentUser;
+    if (user == null) return;
+
+    await _client.from('profiles').upsert({
+      'id': user.id,
+      'full_name': fullName,
+      'phone': phone,
+      'bio': bio,
+      'avatar_url': avatarUrl,
+    });
+  }
 }

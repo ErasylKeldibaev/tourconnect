@@ -3,7 +3,7 @@ import '../../core/constants/app_colors.dart';
 import 'explore_screen.dart';
 import '../favorites/favorites_screen.dart';
 import '../map/map_screen.dart';
-import '../auth/profile_screen.dart'; // using AuthProfileScreen
+import '../profile/profile_screen.dart';// using AuthProfileScreen
 
 class MainNavScreen extends StatefulWidget {
   const MainNavScreen({super.key});
@@ -19,7 +19,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
     ExploreScreen(),
     MapScreen(),
     FavoritesScreen(),
-    AuthProfileScreen(), // <- профиль с Supabase данными и кнопкой выхода
+    const ProfileScreen(), // <- профиль с Supabase данными и кнопкой выхода
   ];
 
   @override
