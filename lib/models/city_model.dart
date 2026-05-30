@@ -8,6 +8,8 @@ class City {
   final int reviewCount;
   final String continent;
   final List<String> tags;
+  final double? lat;
+  final double? lng;
 
   const City({
     required this.id,
@@ -19,5 +21,7 @@ class City {
     this.reviewCount = 0,
     this.continent = '',
     this.tags = const [],
+    this.lat,
+    this.lng,
   });
 }

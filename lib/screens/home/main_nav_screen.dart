@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
-import 'home_screen.dart';
+import 'explore_screen.dart';
 import '../favorites/favorites_screen.dart';
 import '../map/map_screen.dart';
-import '../profile/profile_screen.dart';
+import '../auth/profile_screen.dart'; // using AuthProfileScreen
 
 class MainNavScreen extends StatefulWidget {
   const MainNavScreen({super.key});
+
   @override
   State<MainNavScreen> createState() => _MainNavScreenState();
 }
@@ -14,8 +15,11 @@ class MainNavScreen extends StatefulWidget {
 class _MainNavScreenState extends State<MainNavScreen> {
   int _currentIndex = 0;
 
-  static const List<Widget> _screens = [
-    HomeScreen(), MapScreen(), FavoritesScreen(), ProfileScreen(),
+  static final List<Widget> _screens = [
+    ExploreScreen(),
+    MapScreen(),
+    FavoritesScreen(),
+    AuthProfileScreen(), // <- профиль с Supabase данными и кнопкой выхода
   ];
 
   @override
@@ -25,7 +29,13 @@ class _MainNavScreenState extends State<MainNavScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 20, offset: const Offset(0, -4))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+            ),
+          ],
         ),
         child: SafeArea(
           top: false,
@@ -34,10 +44,34 @@ class _MainNavScreenState extends State<MainNavScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _NavItem(icon: Icons.explore_rounded, label: 'Explore', index: 0, currentIndex: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-                _NavItem(icon: Icons.map_rounded, label: 'Map', index: 1, currentIndex: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-                _NavItem(icon: Icons.favorite_rounded, label: 'Saved', index: 2, currentIndex: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-                _NavItem(icon: Icons.person_rounded, label: 'Profile', index: 3, currentIndex: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
+                _NavItem(
+                  icon: Icons.explore_rounded,
+                  label: 'Explore',
+                  index: 0,
+                  currentIndex: _currentIndex,
+                  onTap: (i) => setState(() => _currentIndex = i),
+                ),
+                _NavItem(
+                  icon: Icons.map_rounded,
+                  label: 'Map',
+                  index: 1,
+                  currentIndex: _currentIndex,
+                  onTap: (i) => setState(() => _currentIndex = i),
+                ),
+                _NavItem(
+                  icon: Icons.favorite_rounded,
+                  label: 'Saved',
+                  index: 2,
+                  currentIndex: _currentIndex,
+                  onTap: (i) => setState(() => _currentIndex = i),
+                ),
+                _NavItem(
+                  icon: Icons.person_rounded,
+                  label: 'Profile',
+                  index: 3,
+                  currentIndex: _currentIndex,
+                  onTap: (i) => setState(() => _currentIndex = i),
+                ),
               ],
             ),
           ),
@@ -50,10 +84,17 @@ class _MainNavScreenState extends State<MainNavScreen> {
 class _NavItem extends StatelessWidget {
   final IconData icon;
   final String label;
-  final int index, currentIndex;
+  final int index;
+  final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const _NavItem({required this.icon, required this.label, required this.index, required this.currentIndex, required this.onTap});
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.index,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +106,29 @@ class _NavItem extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: isSelected ? AppColors.primary : AppColors.textHint, size: 26),
-            const SizedBox(height: 4),
-            Text(label, style: TextStyle(
+            Icon(
+              icon,
               color: isSelected ? AppColors.primary : AppColors.textHint,
-              fontSize: 11,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-            )),
+              size: 26,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? AppColors.primary : AppColors.textHint,
+                fontSize: 11,
+                fontWeight:
+                isSelected ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
           ],
         ),
       ),
