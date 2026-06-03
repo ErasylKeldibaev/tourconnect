@@ -25,8 +25,7 @@ class _AuthProfileScreenState extends State<AuthProfileScreen> {
   bool _isLoading = false;
   bool _isSaving = false;
   bool _isEditing = false;
-  bool _profileLoaded = false;
-
+  
   User? get _user => _authService.currentUser;
   String get _displayEmail => _user?.email ?? '—';
 
@@ -69,7 +68,6 @@ class _AuthProfileScreenState extends State<AuthProfileScreen> {
     } catch (_) {
       // таблица может ещё не существовать — молча игнорируем
     } finally {
-      if (mounted) setState(() => _profileLoaded = true);
     }
   }
 
@@ -249,7 +247,7 @@ class _AuthProfileScreenState extends State<AuthProfileScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.18),
+                        color: Colors.white.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -451,7 +449,7 @@ class _AuthProfileScreenState extends State<AuthProfileScreen> {
                               fontWeight: FontWeight.w600)),
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(
-                            color: AppColors.errorColor.withOpacity(0.4)),
+                            color: AppColors.errorColor.withValues(alpha: 0.4)),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                       ),
@@ -519,7 +517,7 @@ class _InfoTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 10,
               offset: const Offset(0, 3))
         ],
@@ -530,7 +528,7 @@ class _InfoTile extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.08),
+              color: AppColors.primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: AppColors.primary, size: 18),
@@ -574,11 +572,11 @@ class _EditableCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: isEditing
-            ? Border.all(color: AppColors.primary.withOpacity(0.4), width: 1.5)
+            ? Border.all(color: AppColors.primary.withValues(alpha: 0.4), width: 1.5)
             : null,
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 12,
               offset: const Offset(0, 4))
         ],
@@ -624,8 +622,8 @@ class _EditRow extends StatelessWidget {
               height: 38,
               decoration: BoxDecoration(
                 color: enabled
-                    ? AppColors.primary.withOpacity(0.1)
-                    : AppColors.primary.withOpacity(0.05),
+                    ? AppColors.primary.withValues(alpha: 0.1)
+                    : AppColors.primary.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon,

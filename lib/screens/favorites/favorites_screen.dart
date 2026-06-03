@@ -27,7 +27,7 @@ class FavoritesScreen extends StatelessWidget {
           body: total == 0
               ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(padding: const EdgeInsets.all(28),
-                decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.08), shape: BoxShape.circle),
+                decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.08), shape: BoxShape.circle),
                 child: const Icon(Icons.favorite_border_rounded, size: 56, color: AppColors.primary)),
             const SizedBox(height: 24),
             const Text('Nothing saved yet', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
@@ -83,7 +83,7 @@ class FavoritesScreen extends StatelessWidget {
       Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
       const SizedBox(width: 8),
       Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
           child: Text('$count', style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 12))),
     ]);
   }
@@ -103,7 +103,7 @@ class _FavCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4))]),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))]),
       child: Row(children: [
         ClipRRect(
           borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),

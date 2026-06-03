@@ -37,7 +37,7 @@ class AgenciesScreen extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 20),
               decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(22),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 16, offset: const Offset(0, 6))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 16, offset: const Offset(0, 6))],
               ),
               child: Column(
                 children: [
@@ -61,7 +61,7 @@ class AgenciesScreen extends StatelessWidget {
                                   if (agency.isVerified)
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                      decoration: BoxDecoration(color: AppColors.successColor.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+                                      decoration: BoxDecoration(color: AppColors.successColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(20)),
                                       child: const Row(children: [
                                         Icon(Icons.verified_rounded, color: AppColors.successColor, size: 12),
                                         SizedBox(width: 3),

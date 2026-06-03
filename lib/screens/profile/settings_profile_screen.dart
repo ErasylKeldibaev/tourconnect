@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Text('✈️ Путешественник ур. 5',
@@ -359,10 +359,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                                color: AppColors.errorColor.withOpacity(0.25)),
+                                color: AppColors.errorColor.withValues(alpha: 0.25)),
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.black.withOpacity(0.03),
+                                  color: Colors.black.withValues(alpha: 0.03),
                                   blurRadius: 10,
                                   offset: const Offset(0, 3))
                             ],
@@ -376,7 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.all(9),
                                   decoration: BoxDecoration(
                                     color:
-                                    AppColors.errorColor.withOpacity(0.1),
+                                    AppColors.errorColor.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: const Icon(Icons.logout_rounded,
@@ -404,25 +404,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.all(9),
                                   decoration: BoxDecoration(
                                     color:
-                                    AppColors.errorColor.withOpacity(0.07),
+                                    AppColors.errorColor.withValues(alpha: 0.07),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Icon(Icons.delete_outline_rounded,
                                       color: AppColors.errorColor
-                                          .withOpacity(0.7),
+                                          .withValues(alpha: 0.7),
                                       size: 20),
                                 ),
                                 title: Text('Удалить аккаунт',
                                     style: TextStyle(
                                         color: AppColors.errorColor
-                                            .withOpacity(0.7),
+                                            .withValues(alpha: 0.7),
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15)),
                                 trailing: Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: 14,
                                     color: AppColors.errorColor
-                                        .withOpacity(0.5)),
+                                        .withValues(alpha: 0.5)),
                                 onTap: () {},
                               ),
                             ],
@@ -478,7 +478,7 @@ class _StatsRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4))
         ],
@@ -542,7 +542,7 @@ class _SettingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4))
         ],
@@ -585,7 +585,7 @@ class _SwitchTile extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(9),
         decoration: BoxDecoration(
-          color: iconColor.withOpacity(0.1),
+          color: iconColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: iconColor, size: 20),
@@ -601,7 +601,7 @@ class _SwitchTile extends StatelessWidget {
       trailing: Switch.adaptive(
         value: value,
         onChanged: onChanged,
-        activeColor: AppColors.primary,
+        activeThumbColor: AppColors.primary,
       ),
     );
   }
@@ -630,7 +630,7 @@ class _NavTile extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(9),
         decoration: BoxDecoration(
-          color: iconColor.withOpacity(0.1),
+          color: iconColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: iconColor, size: 20),

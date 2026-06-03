@@ -41,7 +41,7 @@ class AppTheme {
         color: AppColors.cardBg,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-shadowColor: Colors.black.withOpacity(0.08),
+shadowColor: Colors.black.withValues(alpha: 0.08),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

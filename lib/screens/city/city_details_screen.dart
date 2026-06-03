@@ -62,7 +62,7 @@ class CityDetailsScreen extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.all(10),
         child: CircleAvatar(
-          backgroundColor: Colors.white.withOpacity(0.95),
+          backgroundColor: Colors.white.withValues(alpha: 0.95),
           child: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.textPrimary, size: 18),
         ),
       ),
@@ -78,7 +78,7 @@ class CityDetailsScreen extends StatelessWidget {
                   AppUtils.showSnackBar(context, isFav ? 'Removed from saved' : '${city.name} saved!');
                 },
                 child: CircleAvatar(
-                  backgroundColor: Colors.white.withOpacity(0.95),
+                  backgroundColor: Colors.white.withValues(alpha: 0.95),
                   child: Icon(isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                       color: isFav ? Colors.red : AppColors.textPrimary, size: 20),
                 ),
@@ -128,7 +128,7 @@ class CityDetailsScreen extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(color: AppColors.starColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: AppColors.starColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
           child: Row(children: [
             const Icon(Icons.star_rounded, color: AppColors.starColor, size: 18),
             const SizedBox(width: 5),
@@ -141,7 +141,7 @@ class CityDetailsScreen extends StatelessWidget {
         const Spacer(),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
           child: Text(city.continent,
               style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 13)),
         ),
@@ -175,7 +175,7 @@ class CityDetailsScreen extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(18),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4))],
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
           ),
           child: Material(
             color: Colors.transparent,
@@ -188,7 +188,7 @@ class CityDetailsScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(color: e.value.color.withOpacity(0.12), borderRadius: BorderRadius.circular(14)),
+                      decoration: BoxDecoration(color: e.value.color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(14)),
                       child: Icon(e.value.icon, color: e.value.color, size: 22),
                     ),
                     const SizedBox(width: 16),

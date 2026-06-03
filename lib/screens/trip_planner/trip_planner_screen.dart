@@ -85,7 +85,7 @@ class TripPlannerScreen extends StatelessWidget {
                                     duration: const Duration(milliseconds: 200),
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                      color: inPlan ? AppColors.primary.withOpacity(0.08) : Colors.white,
+                                      color: inPlan ? AppColors.primary.withValues(alpha: 0.08) : Colors.white,
                                       borderRadius: BorderRadius.circular(14),
                                       border: Border.all(
                                         color: inPlan ? AppColors.primary : AppColors.divider,

@@ -59,10 +59,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           children: [
             Positioned(top: -60, right: -60,
                 child: Container(width: 200, height: 200,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.06)))),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.06)))),
             Positioned(bottom: -80, left: -40,
                 child: Container(width: 280, height: 280,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.05)))),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.05)))),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(26),
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 30, offset: const Offset(0, 10))],
+                          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 30, offset: const Offset(0, 10))],
                         ),
                         child: const Icon(Icons.explore_rounded, size: 52, color: AppColors.primary),
                       ),
@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w800, letterSpacing: -0.5)),
                           const SizedBox(height: 8),
                           Text('Discover · Explore · Connect',
-                              style: TextStyle(color: Colors.white.withOpacity(0.75), fontSize: 15, letterSpacing: 1.2)),
+                              style: TextStyle(color: Colors.white.withValues(alpha: 0.75), fontSize: 15, letterSpacing: 1.2)),
                         ],
                       ),
                     ),
@@ -107,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 opacity: _fadeAnim,
                 child: Center(
                   child: SizedBox(width: 30, height: 30,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white.withOpacity(0.6))),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white.withValues(alpha: 0.6))),
                 ),
               ),
             ),

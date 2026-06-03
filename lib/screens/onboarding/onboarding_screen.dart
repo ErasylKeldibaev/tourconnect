@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             top: MediaQuery.of(context).padding.top + 16, right: 24,
             child: TextButton(
               onPressed: _goToMain,
-              child: Text('Skip', style: TextStyle(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w600)),
+              child: Text('Skip', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w600)),
             ),
           ),
           Positioned(
@@ -67,7 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   controller: _pageController, count: _pages.length,
                   effect: ExpandingDotsEffect(
                     activeDotColor: Colors.white,
-                    dotColor: Colors.white.withOpacity(0.4),
+                    dotColor: Colors.white.withValues(alpha: 0.4),
                     dotHeight: 8, dotWidth: 8, expansionFactor: 3,
                   ),
                 ),
@@ -79,7 +79,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
-                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 20, offset: const Offset(0, 8))],
+                      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, 8))],
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -129,7 +129,7 @@ class _OnboardPageView extends StatelessWidget {
               const SizedBox(height: 16),
               Text(page.title, style: const TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w800, height: 1.15, letterSpacing: -0.5)),
               const SizedBox(height: 16),
-              Text(page.subtitle, style: TextStyle(color: Colors.white.withOpacity(0.75), fontSize: 16, height: 1.5)),
+              Text(page.subtitle, style: TextStyle(color: Colors.white.withValues(alpha: 0.75), fontSize: 16, height: 1.5)),
             ],
           ),
         ),
