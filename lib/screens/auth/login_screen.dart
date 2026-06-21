@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
+import '../../core/utils/form_validators.dart';
 import '../../services/auth_service.dart';
-import '../home/main_nav_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,28 +36,29 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
       _errorMessage = null;
     });
+
     try {
       await _authService.login(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-      if (!mounted) return;
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const MainNavScreen()),
-            (_) => false,
-      );
     } catch (e) {
-      setState(() => _errorMessage = _friendlyError(e.toString()));
+      if (mounted) setState(() => _errorMessage = _friendlyError(e.toString()));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
   String _friendlyError(String raw) {
-    if (raw.contains('Invalid login credentials')) return 'Неверный email или пароль.';
-    if (raw.contains('Email not confirmed')) return 'Подтвердите email перед входом.';
-    if (raw.contains('network')) return 'Нет соединения с интернетом.';
-    return 'Ошибка входа. Попробуйте ещё раз.';
+    final value = raw.toLowerCase();
+    if (value.contains('invalid login credentials')) {
+      return 'Incorrect email or password.';
+    }
+    if (value.contains('email not confirmed')) {
+      return 'Confirm your email before signing in.';
+    }
+    if (value.contains('network')) return 'No internet connection.';
+    return 'Sign in failed. Please try again.';
   }
 
   InputDecoration _inputDecoration({
@@ -73,11 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.divider),
+        borderSide: const BorderSide(color: AppColors.divider),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.divider),
+        borderSide: const BorderSide(color: AppColors.divider),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
@@ -117,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Логотип
                 FadeInDown(
                   child: Center(
                     child: Container(
@@ -143,17 +144,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 36),
-
-                // Заголовок
                 FadeInDown(
                   delay: const Duration(milliseconds: 100),
                   child: const Text(
-                    'Добро пожаловать',
+                    'Welcome back',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
-                      letterSpacing: -0.5,
+                      letterSpacing: 0,
                     ),
                   ),
                 ),
@@ -161,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 FadeInDown(
                   delay: const Duration(milliseconds: 150),
                   child: const Text(
-                    'Войдите в свой аккаунт',
+                    'Sign in to continue your journey',
                     style: TextStyle(
                       fontSize: 15,
                       color: AppColors.textSecondary,
@@ -169,8 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-
-                // Email
                 FadeInUp(
                   delay: const Duration(milliseconds: 200),
                   child: _buildLabel('Email'),
@@ -186,19 +183,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       hint: 'you@example.com',
                       icon: Icons.email_outlined,
                     ),
-                    validator: (v) {
-                      if (v == null || v.trim().isEmpty) return 'Введите email';
-                      if (!v.contains('@')) return 'Некорректный email';
-                      return null;
-                    },
+                    validator: FormValidators.email,
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Пароль
                 FadeInUp(
                   delay: const Duration(milliseconds: 260),
-                  child: _buildLabel('Пароль'),
+                  child: _buildLabel('Password'),
                 ),
                 const SizedBox(height: 8),
                 FadeInUp(
@@ -209,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) => _login(),
                     decoration: _inputDecoration(
-                      hint: '••••••••',
+                      hint: 'Password',
                       icon: Icons.lock_outline_rounded,
                       suffix: IconButton(
                         icon: Icon(
@@ -219,53 +210,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: AppColors.textHint,
                           size: 20,
                         ),
-                        onPressed: () =>
-                            setState(() => _obscurePassword = !_obscurePassword),
+                        onPressed: () => setState(
+                          () => _obscurePassword = !_obscurePassword,
+                        ),
                       ),
                     ),
-                    validator: (v) {
-                      if (v == null || v.isEmpty) return 'Введите пароль';
-                      if (v.length < 6) return 'Минимум 6 символов';
-                      return null;
-                    },
+                    validator: FormValidators.password,
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Ошибка
                 if (_errorMessage != null)
-                  FadeIn(
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.errorColor.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.errorColor.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.error_outline_rounded,
-                              color: AppColors.errorColor, size: 18),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              _errorMessage!,
-                              style: const TextStyle(
-                                color: AppColors.errorColor,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
+                  FadeIn(child: _StatusMessage.error(_errorMessage!)),
                 const SizedBox(height: 28),
-
-                // Кнопка входа
                 FadeInUp(
                   delay: const Duration(milliseconds: 320),
                   child: SizedBox(
@@ -277,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                         disabledBackgroundColor:
-                        AppColors.primary.withValues(alpha: 0.6),
+                            AppColors.primary.withValues(alpha: 0.6),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -285,33 +241,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: _isLoading
                           ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2.5,
-                        ),
-                      )
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
+                            )
                           : const Text(
-                        'Войти',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                              'Sign in',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Переход на регистрацию
                 FadeInUp(
                   delay: const Duration(milliseconds: 360),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Нет аккаунта? ',
+                        'No account? ',
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 14,
@@ -321,10 +275,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => const RegisterScreen()),
+                            builder: (_) => const RegisterScreen(),
+                          ),
                         ),
                         child: const Text(
-                          'Зарегистрироваться',
+                          'Create one',
                           style: TextStyle(
                             color: AppColors.primary,
                             fontSize: 14,
@@ -339,6 +294,49 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _StatusMessage extends StatelessWidget {
+  final String text;
+  final Color color;
+  final IconData icon;
+
+  const _StatusMessage._({
+    required this.text,
+    required this.color,
+    required this.icon,
+  });
+
+  const _StatusMessage.error(String text)
+      : this._(
+          text: text,
+          color: AppColors.errorColor,
+          icon: Icons.error_outline_rounded,
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(color: color, fontSize: 13),
+            ),
+          ),
+        ],
       ),
     );
   }

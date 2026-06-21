@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
+import '../../core/utils/form_validators.dart';
 import '../../services/auth_service.dart';
-import '../home/main_nav_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -39,6 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _errorMessage = null;
       _successMessage = null;
     });
+
     try {
       final response = await _authService.register(
         email: _emailController.text.trim(),
@@ -46,32 +48,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       if (!mounted) return;
 
-      // Если Supabase не требует подтверждения email — сразу входим
       if (response.session != null) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const MainNavScreen()),
-              (_) => false,
-        );
+        return;
       } else {
-        // Если нужно подтверждение email
         setState(() {
           _successMessage =
-          'Письмо отправлено на ${_emailController.text.trim()}. '
-              'Подтвердите email и войдите.';
+              'We sent a confirmation email to ${_emailController.text.trim()}. '
+              'Confirm it, then sign in.';
         });
       }
     } catch (e) {
-      setState(() => _errorMessage = _friendlyError(e.toString()));
+      if (mounted) setState(() => _errorMessage = _friendlyError(e.toString()));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
   String _friendlyError(String raw) {
-    if (raw.contains('User already registered')) return 'Этот email уже зарегистрирован.';
-    if (raw.contains('Password should be')) return 'Пароль должен быть не менее 6 символов.';
-    if (raw.contains('network')) return 'Нет соединения с интернетом.';
-    return 'Ошибка регистрации. Попробуйте ещё раз.';
+    final value = raw.toLowerCase();
+    if (value.contains('user already registered')) {
+      return 'This email is already registered.';
+    }
+    if (value.contains('password should be')) {
+      return 'Password must be at least 6 characters.';
+    }
+    if (value.contains('network')) return 'No internet connection.';
+    return 'Registration failed. Please try again.';
   }
 
   InputDecoration _inputDecoration({
@@ -88,11 +90,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.divider),
+        borderSide: const BorderSide(color: AppColors.divider),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.divider),
+        borderSide: const BorderSide(color: AppColors.divider),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
@@ -132,7 +134,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Назад
                 FadeInDown(
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
@@ -144,23 +145,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: AppColors.divider),
                       ),
-                      child: const Icon(Icons.arrow_back_rounded,
-                          color: AppColors.textPrimary, size: 20),
+                      child: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: AppColors.textPrimary,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 28),
-
-                // Заголовок
                 FadeInDown(
                   delay: const Duration(milliseconds: 80),
                   child: const Text(
-                    'Создать аккаунт',
+                    'Create account',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
-                      letterSpacing: -0.5,
+                      letterSpacing: 0,
                     ),
                   ),
                 ),
@@ -168,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 FadeInDown(
                   delay: const Duration(milliseconds: 120),
                   child: const Text(
-                    'Зарегистрируйтесь, чтобы начать',
+                    'Start planning better trips today',
                     style: TextStyle(
                       fontSize: 15,
                       color: AppColors.textSecondary,
@@ -176,8 +178,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 36),
-
-                // Email
                 FadeInUp(
                   delay: const Duration(milliseconds: 160),
                   child: _buildLabel('Email'),
@@ -193,19 +193,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hint: 'you@example.com',
                       icon: Icons.email_outlined,
                     ),
-                    validator: (v) {
-                      if (v == null || v.trim().isEmpty) return 'Введите email';
-                      if (!v.contains('@')) return 'Некорректный email';
-                      return null;
-                    },
+                    validator: FormValidators.email,
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Пароль
                 FadeInUp(
                   delay: const Duration(milliseconds: 220),
-                  child: _buildLabel('Пароль'),
+                  child: _buildLabel('Password'),
                 ),
                 const SizedBox(height: 8),
                 FadeInUp(
@@ -215,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: _obscurePassword,
                     textInputAction: TextInputAction.next,
                     decoration: _inputDecoration(
-                      hint: '••••••••',
+                      hint: 'Password',
                       icon: Icons.lock_outline_rounded,
                       suffix: IconButton(
                         icon: Icon(
@@ -225,23 +219,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: AppColors.textHint,
                           size: 20,
                         ),
-                        onPressed: () =>
-                            setState(() => _obscurePassword = !_obscurePassword),
+                        onPressed: () => setState(
+                          () => _obscurePassword = !_obscurePassword,
+                        ),
                       ),
                     ),
-                    validator: (v) {
-                      if (v == null || v.isEmpty) return 'Введите пароль';
-                      if (v.length < 6) return 'Минимум 6 символов';
-                      return null;
-                    },
+                    validator: FormValidators.password,
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Подтверждение пароля
                 FadeInUp(
                   delay: const Duration(milliseconds: 280),
-                  child: _buildLabel('Подтвердите пароль'),
+                  child: _buildLabel('Confirm password'),
                 ),
                 const SizedBox(height: 8),
                 FadeInUp(
@@ -252,7 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) => _register(),
                     decoration: _inputDecoration(
-                      hint: '••••••••',
+                      hint: 'Confirm password',
                       icon: Icons.lock_outline_rounded,
                       suffix: IconButton(
                         icon: Icon(
@@ -262,80 +251,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: AppColors.textHint,
                           size: 20,
                         ),
-                        onPressed: () =>
-                            setState(() => _obscureConfirm = !_obscureConfirm),
+                        onPressed: () => setState(
+                          () => _obscureConfirm = !_obscureConfirm,
+                        ),
                       ),
                     ),
-                    validator: (v) {
-                      if (v == null || v.isEmpty) return 'Повторите пароль';
-                      if (v != _passwordController.text) return 'Пароли не совпадают';
-                      return null;
-                    },
+                    validator: (value) => FormValidators.passwordConfirmation(
+                      value,
+                      _passwordController.text,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Ошибка
                 if (_errorMessage != null)
-                  FadeIn(
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.errorColor.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.errorColor.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.error_outline_rounded,
-                              color: AppColors.errorColor, size: 18),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              _errorMessage!,
-                              style: const TextStyle(
-                                  color: AppColors.errorColor, fontSize: 13),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                // Успех
+                  FadeIn(child: _StatusMessage.error(_errorMessage!)),
                 if (_successMessage != null)
-                  FadeIn(
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.successColor.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.successColor.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.check_circle_outline_rounded,
-                              color: AppColors.successColor, size: 18),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              _successMessage!,
-                              style: const TextStyle(
-                                  color: AppColors.successColor, fontSize: 13),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
+                  FadeIn(child: _StatusMessage.success(_successMessage!)),
                 const SizedBox(height: 28),
-
-                // Кнопка регистрации
                 FadeInUp(
                   delay: const Duration(milliseconds: 340),
                   child: SizedBox(
@@ -347,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                         disabledBackgroundColor:
-                        AppColors.primary.withValues(alpha: 0.6),
+                            AppColors.primary.withValues(alpha: 0.6),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -355,40 +287,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       child: _isLoading
                           ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2.5,
-                        ),
-                      )
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
+                            )
                           : const Text(
-                        'Создать аккаунт',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                              'Create account',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Переход на вход
                 FadeInUp(
                   delay: const Duration(milliseconds: 380),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Уже есть аккаунт? ',
+                        'Already have an account? ',
                         style: TextStyle(
-                            color: AppColors.textSecondary, fontSize: 14),
+                          color: AppColors.textSecondary,
+                          fontSize: 14,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: const Text(
-                          'Войти',
+                          'Sign in',
                           style: TextStyle(
                             color: AppColors.primary,
                             fontSize: 14,
@@ -403,6 +335,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _StatusMessage extends StatelessWidget {
+  final String text;
+  final Color color;
+  final IconData icon;
+
+  const _StatusMessage._({
+    required this.text,
+    required this.color,
+    required this.icon,
+  });
+
+  const _StatusMessage.error(String text)
+      : this._(
+          text: text,
+          color: AppColors.errorColor,
+          icon: Icons.error_outline_rounded,
+        );
+
+  const _StatusMessage.success(String text)
+      : this._(
+          text: text,
+          color: AppColors.successColor,
+          icon: Icons.check_circle_outline_rounded,
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(color: color, fontSize: 13),
+            ),
+          ),
+        ],
       ),
     );
   }
