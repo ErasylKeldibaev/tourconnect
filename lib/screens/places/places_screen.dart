@@ -227,16 +227,22 @@ class _PlacesOverview extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _OverviewMetric(
-              icon: Icons.place_rounded, value: '$total', label: 'Sights'),
-          _OverviewMetric(
-              icon: Icons.local_fire_department_rounded,
-              value: '$popular',
-              label: 'Popular'),
-          _OverviewMetric(
-              icon: Icons.star_rounded,
-              value: averageRating.toStringAsFixed(1),
-              label: 'Avg rating'),
+          Expanded(
+            child: _OverviewMetric(
+                icon: Icons.place_rounded, value: '$total', label: 'Sights'),
+          ),
+          Expanded(
+            child: _OverviewMetric(
+                icon: Icons.local_fire_department_rounded,
+                value: '$popular',
+                label: 'Popular'),
+          ),
+          Expanded(
+            child: _OverviewMetric(
+                icon: Icons.star_rounded,
+                value: averageRating.toStringAsFixed(1),
+                label: 'Avg rating'),
+          ),
         ],
       ),
     );
@@ -256,33 +262,31 @@ class _OverviewMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Icon(icon, color: AppColors.primary, size: 20),
-          const SizedBox(height: 7),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w900,
-            ),
+    return Column(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 20),
+        const SizedBox(height: 7),
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
           ),
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.textHint,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-            ),
+        ),
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: AppColors.textHint,
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

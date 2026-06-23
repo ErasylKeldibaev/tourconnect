@@ -372,8 +372,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           Positioned(
             right: 16,
             bottom: math.max(
-              bottomInset + (panelIsCollapsed ? 150 : 252),
-              panelIsCollapsed ? 150 : 252,
+              bottomInset + (panelIsCollapsed ? 150 : 280),
+              panelIsCollapsed ? 150 : 280,
             ),
             child: _MapButtons(
               onZoomIn: () => _zoomBy(1),
@@ -1069,7 +1069,7 @@ class _BottomMapPanel extends StatelessWidget {
             if (places.isNotEmpty) ...[
               const SizedBox(height: 12),
               SizedBox(
-                height: 86,
+                height: 100,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: places.length,
@@ -1373,11 +1373,17 @@ class _OverviewPanel extends StatelessWidget {
             const SizedBox(height: 14),
             Row(
               children: [
-                _Metric(label: strings.cities, value: '${cities.length}'),
+                Expanded(
+                  child: _Metric(label: strings.cities, value: '${cities.length}'),
+                ),
                 const SizedBox(width: 8),
-                _Metric(label: strings.sights, value: '${places.length}'),
+                Expanded(
+                  child: _Metric(label: strings.sights, value: '${places.length}'),
+                ),
                 const SizedBox(width: 8),
-                _Metric(label: strings.tours, value: '${tours.length}'),
+                Expanded(
+                  child: _Metric(label: strings.tours, value: '${tours.length}'),
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -1412,33 +1418,31 @@ class _Metric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 17,
-                fontWeight: FontWeight.w900,
-              ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 17,
+              fontWeight: FontWeight.w900,
             ),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          Text(
+            label,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -1463,7 +1467,7 @@ class _PlaceCard extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        width: 224,
+        width: 238,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: selected ? color.withValues(alpha: 0.08) : AppColors.surface,

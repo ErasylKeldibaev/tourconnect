@@ -686,83 +686,98 @@ class _GuestProfileView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-              Container(
-                width: 76,
-                height: 76,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: const Icon(
-                  Icons.travel_explore_rounded,
-                  color: AppColors.primary,
-                  size: 36,
-                ),
+        bottom: false,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final bottom = MediaQuery.of(context).padding.bottom;
+            final compact = constraints.maxHeight < 700;
+
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.fromLTRB(
+                24,
+                compact ? 14 : 24,
+                24,
+                bottom + 124,
               ),
-              const SizedBox(height: 24),
-              Text(
-                strings.guestTitle,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  height: 1.08,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                strings.guestBody,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 15,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 28),
-              _GuestBenefit(
-                icon: Icons.favorite_rounded,
-                title: strings.guestBenefitProfile,
-                body: strings.guestBenefitProfileBody,
-              ),
-              _GuestBenefit(
-                icon: Icons.cloud_done_rounded,
-                title: strings.guestBenefitSync,
-                body: strings.guestBenefitSyncBody,
-              ),
-              _GuestBenefit(
-                icon: Icons.support_agent_rounded,
-                title: strings.guestBenefitAgency,
-                body: strings.guestBenefitAgencyBody,
-              ),
-              const SizedBox(height: 8),
-              const _LanguagePreferenceCard(),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: compact ? 58 : 76,
+                    height: compact ? 58 : 76,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(compact ? 18 : 24),
+                    ),
+                    child: Icon(
+                      Icons.travel_explore_rounded,
+                      color: AppColors.primary,
+                      size: compact ? 28 : 36,
+                    ),
                   ),
-                  icon: const Icon(Icons.login_rounded),
-                  label: Text(strings.signIn),
-                ),
+                  SizedBox(height: compact ? 18 : 24),
+                  Text(
+                    strings.guestTitle,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: compact ? 27 : 28,
+                      fontWeight: FontWeight.w900,
+                      height: 1.08,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    strings.guestBody,
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 15,
+                      height: 1.5,
+                    ),
+                  ),
+                  SizedBox(height: compact ? 22 : 28),
+                  _GuestBenefit(
+                    icon: Icons.favorite_rounded,
+                    title: strings.guestBenefitProfile,
+                    body: strings.guestBenefitProfileBody,
+                  ),
+                  _GuestBenefit(
+                    icon: Icons.cloud_done_rounded,
+                    title: strings.guestBenefitSync,
+                    body: strings.guestBenefitSyncBody,
+                  ),
+                  _GuestBenefit(
+                    icon: Icons.support_agent_rounded,
+                    title: strings.guestBenefitAgency,
+                    body: strings.guestBenefitAgencyBody,
+                  ),
+                  const SizedBox(height: 8),
+                  const _LanguagePreferenceCard(),
+                  SizedBox(height: compact ? 18 : 24),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LoginScreen(),
+                        ),
+                      ),
+                      icon: const Icon(Icons.login_rounded),
+                      label: Text(strings.signIn),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: TextButton(
+                      onPressed: () => Navigator.maybePop(context),
+                      child: Text(strings.continueExploring),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              Center(
-                child: TextButton(
-                  onPressed: () => Navigator.maybePop(context),
-                  child: Text(strings.continueExploring),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

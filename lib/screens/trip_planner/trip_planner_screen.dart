@@ -316,19 +316,25 @@ class _PlannerHeader extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              _HeaderMetric(
-                icon: Icons.place_rounded,
-                label: hasPlan ? '${plan.length} stops' : 'No stops',
+              Expanded(
+                child: _HeaderMetric(
+                  icon: Icons.place_rounded,
+                  label: hasPlan ? '${plan.length} stops' : 'No stops',
+                ),
               ),
               const SizedBox(width: 8),
-              _HeaderMetric(
-                icon: Icons.category_rounded,
-                label: hasPlan ? '$categories types' : 'Pick places',
+              Expanded(
+                child: _HeaderMetric(
+                  icon: Icons.category_rounded,
+                  label: hasPlan ? '$categories types' : 'Pick places',
+                ),
               ),
               const SizedBox(width: 8),
-              _HeaderMetric(
-                icon: Icons.drag_handle_rounded,
-                label: hasPlan ? 'Drag order' : 'Then reorder',
+              Expanded(
+                child: _HeaderMetric(
+                  icon: Icons.drag_handle_rounded,
+                  label: hasPlan ? 'Drag order' : 'Then reorder',
+                ),
               ),
             ],
           ),
@@ -346,32 +352,30 @@ class _HeaderMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.14),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 15),
-            const SizedBox(width: 5),
-            Flexible(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 15),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

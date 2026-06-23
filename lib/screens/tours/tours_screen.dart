@@ -522,16 +522,20 @@ class _BookingPreviewSheetState extends State<_BookingPreviewSheet> {
             const SizedBox(height: 22),
             Row(
               children: [
-                _BookingFact(
-                  icon: Icons.group_outlined,
-                  label: 'Group',
-                  value: 'Max ${widget.tour.maxGroupSize}',
+                Expanded(
+                  child: _BookingFact(
+                    icon: Icons.group_outlined,
+                    label: 'Group',
+                    value: 'Max ${widget.tour.maxGroupSize}',
+                  ),
                 ),
                 const SizedBox(width: 10),
-                _BookingFact(
-                  icon: Icons.signal_cellular_alt_rounded,
-                  label: 'Difficulty',
-                  value: widget.tour.difficulty,
+                Expanded(
+                  child: _BookingFact(
+                    icon: Icons.signal_cellular_alt_rounded,
+                    label: 'Difficulty',
+                    value: widget.tour.difficulty,
+                  ),
                 ),
               ],
             ),
@@ -724,39 +728,37 @@ class _BookingFact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: AppColors.primary, size: 20),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.primary, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                ),
+                Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w800,
                   ),
-                  Text(
-                    value,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
